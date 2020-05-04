@@ -4,19 +4,28 @@ import interfaces.IDAO;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.Pelicula;
 import utils.ConnectionFactory;
 import utils.MotorSQL;
 
 public class PeliculaDAO
         implements IDAO<Pelicula, Integer> {
+
     private final String SQL_FINDALL
             = "SELECT * FROM `pelicula` WHERE 1=1 ";
     private final String SQL_ADD
             = "INSERT INTO `pelicula` (`Titulo`, `Precio`, `Duracion`, `Trailer`, `Sinopsis`, `N_Votos`, `S_Puntuacion`, `Fecha_Estreno`,`URL`) VALUES ";
     private final String SQL_DELETE = "DELETE FROM `pelicula` WHERE ID_Pelicula=";
     private final String SQL_UPDATE = "UPDATE `pelicula` SET ";
-    
+    private final String SQL_FIND_CINE
+            = "SELECT * FROM `pelicula  p,sesion s,sala sa,cine c`"
+            + " WHERE p.id_pelicula=s.id_pelicula"
+            + " AND   s.id_sala=sa.num_sala"
+            + " AND   c.id_cine=sa.id_cine"
+            + " AND   c.id_cine=";
+
     private MotorSQL motorSql;
 
     public PeliculaDAO() {
@@ -26,7 +35,7 @@ public class PeliculaDAO
     @Override
     public ArrayList<Pelicula> findAll(Pelicula bean) {
         ArrayList<Pelicula> peliculas = new ArrayList<>();
-        String sql= SQL_FINDALL;
+        String sql = SQL_FINDALL;
         try {
             //1º) 
             motorSql.connect();
@@ -48,17 +57,28 @@ public class PeliculaDAO
                     sql += "AND SINOPSIS LIKE('%" + bean.getSinopsis() + "%')";
                 }
                 if (bean.getnVotos() != 0) {
-                    sql += "AND N_VOTOS='" + bean.getnVotos() + "'";
+                    sql += "AND VOTOS='" + bean.getnVotos() + "'";
                 }
                 if (bean.getsPuntuacion() != 0) {
-                    sql += "AND S_PUNTUACION='" + bean.getsPuntuacion() + "'";
+                    sql += "AND PUNTUACION='" + bean.getsPuntuacion() + "'";
                 }
                 if (bean.getFechaEstreno() != null) {
                     sql += "AND FECHA_ESTRENO='" + bean.getFechaEstreno() + "'";
                 }
-                if (bean.getUrl()!= null) {
+                if (bean.getUrl() != null) {
                     sql += "AND URL='" + bean.getUrl() + "'";
                 }
+
+                if (bean.getId_genero() != 0) {
+                    sql += "AND ID_GENERO='" + bean.getUrl() + "'";
+                }
+                if (bean.getId_publico() != 0) {
+                    sql += "AND ID_PUBLICO='" + bean.getUrl() + "'";
+                }
+                //PUNTO 1 DEL REQUERIMIENTO
+                //si parametro 10 peliculas más votadas
+                //sql += "AND FOUND_ROWS()<11 ORDER BY PUNTUACION DESC" + "'";
+
             }
 
             System.out.println(sql);
@@ -106,14 +126,14 @@ public class PeliculaDAO
                     + bean.getnVotos() + ", "
                     + bean.getsPuntuacion() + ", '"
                     + bean.getFechaEstreno() + "', '"
-                    + bean.getUrl()+ "');";
+                    + bean.getUrl() + "');";
 
 //                    + bean.getsPuntuacion() + "',"
 //                    + "CURRENT_DATE)";
             resp = motorSql.execute(sql);
             /* RECUPERAR EL ID DEL ÚLTIMO OBJETO INSERTADO*/
-            
-            /*FIN*/
+
+ /*FIN*/
         } catch (Exception e) {
             System.out.println(e);
         } finally {
@@ -218,22 +238,82 @@ public class PeliculaDAO
     public static void main(String[] args) {
         /*PRUEBAS UNITARIAS - TEST*/
         PeliculaDAO peliculaDAO = new PeliculaDAO();
-        
+
         //Findall - filtra segun campos que no son null o 0
 //        ArrayList lstPeliculas
 //                = peliculaDAO.findAll(new Pelicula("Interstellar", null, null, null, 0, 500, 0, 0, null, null));
 //        System.out.println(lstPeliculas.toString());
 //
 //        Pelicula peliprueba = new Pelicula("Joshua y los teleñecos", "www", "abc", "2015", 90, 5, 6, 9, 5.3, null);
-
 //        //Add de registro
-       // peliculaDAO.add(peliprueba);
-
+        // peliculaDAO.add(peliprueba);
 //        //Update del registro con id pelicula 1
-   //     peliculaDAO.update(new Pelicula("Titulo cambiado", null, null, null, 0, 0, 0, 1, null));
-
+        //     peliculaDAO.update(new Pelicula("Titulo cambiado", null, null, null, 0, 0, 0, 1, null));
 //        //Delete del registro 2
-   //     peliculaDAO.delete(2);
+        //     peliculaDAO.delete(2);
     }
- 
+
+    //SELECT * FROM `pelicula  p,sesion s,sala sa,cine c
+    //         WHERE p.id_pelicula=s.id_pelicula 
+    //       AND   s.id_sala=sa.num_sala 
+    //       AND   c.id_cine=sa.id_cine 
+    //        AND   c.id_cine= 
+    /**
+     * Filtra películas por el cine el el que se proyectan. Si hay parámetros,
+     * también filtra por género y publico
+     * @param bean
+     * @param cine
+     * @return 
+     */
+    public ArrayList<Pelicula> findPeliculasByCine(Pelicula bean, int cine) {
+        ArrayList<Pelicula> peliculas = new ArrayList<>();
+        String sql = SQL_FIND_CINE;
+        try {
+            //1º) 
+            motorSql.connect();
+
+            sql += cine + "'";
+            if (bean != null) {
+                if (bean.getId_genero() != 0) {
+                    sql += "id_genero='" + bean.getId_genero() + "'";
+                }
+
+                if (bean.getId_publico() != 0) {
+                    sql += "id_publico='" + bean.getId_publico() + "'";
+                }
+
+            }
+
+            System.out.println(sql);
+            ResultSet rs = motorSql.
+                    executeQuery(sql);
+
+            while (rs.next()) {
+                Pelicula pelicula = new Pelicula();
+
+                pelicula.setId(rs.getInt(1));
+                pelicula.setTitulo(rs.getString(2));
+                pelicula.setPrecio(rs.getDouble(3));
+                pelicula.setDuracion(rs.getInt(4));
+                pelicula.setTrailer(rs.getString(5));
+                pelicula.setSinopsis(rs.getString(6));
+                pelicula.setnVotos(rs.getInt(7));
+                pelicula.setsPuntuacion(rs.getInt(8));
+                pelicula.setFechaEstreno(rs.getString(9));
+                pelicula.setUrl(rs.getString(10));
+                pelicula.setId_genero(rs.getInt(11));
+
+                peliculas.add(pelicula);
+
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(PeliculaDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            motorSql.disconnect();
+        }
+        return peliculas;
+
+    }
+    
 }

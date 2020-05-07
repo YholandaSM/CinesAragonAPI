@@ -12,26 +12,18 @@ import utils.MotorSQL;
 
 public class PeliculaDAO
         implements IDAO<Pelicula, Integer> {
-
     private final String SQL_FINDALL
             = "SELECT * FROM `pelicula` WHERE 1=1 ";
     private final String SQL_ADD
             = "INSERT INTO `pelicula` (`Titulo`, `Precio`, `Duracion`, `Trailer`, `Sinopsis`, `N_Votos`, `S_Puntuacion`, `Fecha_Estreno`,`URL`) VALUES ";
     private final String SQL_DELETE = "DELETE FROM `pelicula` WHERE ID_Pelicula=";
     private final String SQL_UPDATE = "UPDATE `pelicula` SET ";
-    private final String SQL_FIND_CINE
-            = "SELECT * FROM `pelicula  p,sesion s,sala sa,cine c`"
-            + " WHERE p.id_pelicula=s.id_pelicula"
-            + " AND   s.id_sala=sa.num_sala"
-            + " AND   c.id_cine=sa.id_cine"
-            + " AND   c.id_cine=";
+   
 
     private MotorSQL motorSql;
-
     public PeliculaDAO() {
         motorSql = ConnectionFactory.selectDb();
     }
-
     @Override
     public ArrayList<Pelicula> findAll(Pelicula bean) {
         ArrayList<Pelicula> peliculas = new ArrayList<>();
@@ -110,7 +102,6 @@ public class PeliculaDAO
         }
         return peliculas;
     }
-
     @Override
     public int add(Pelicula bean) {
         int resp = 0;
@@ -145,7 +136,6 @@ public class PeliculaDAO
         }
         return resp;
     }
-
     @Override
     public int delete(Integer id) {
         int resp = 0;
@@ -171,7 +161,6 @@ public class PeliculaDAO
         }
         return resp;
     }
-
     @Override
     public int update(Pelicula bean) {
         int resp = 0;
@@ -235,6 +224,8 @@ public class PeliculaDAO
         return resp;
     }
 
+    
+    
     public static void main(String[] args) {
         /*PRUEBAS UNITARIAS - TEST*/
         PeliculaDAO peliculaDAO = new PeliculaDAO();
@@ -252,68 +243,4 @@ public class PeliculaDAO
 //        //Delete del registro 2
         //     peliculaDAO.delete(2);
     }
-
-    //SELECT * FROM `pelicula  p,sesion s,sala sa,cine c
-    //         WHERE p.id_pelicula=s.id_pelicula 
-    //       AND   s.id_sala=sa.num_sala 
-    //       AND   c.id_cine=sa.id_cine 
-    //        AND   c.id_cine= 
-    /**
-     * Filtra películas por el cine el el que se proyectan. Si hay parámetros,
-     * también filtra por género y publico
-     * @param bean
-     * @param cine
-     * @return 
-     */
-    public ArrayList<Pelicula> findPeliculasByCine(Pelicula bean, int cine) {
-        ArrayList<Pelicula> peliculas = new ArrayList<>();
-        String sql = SQL_FIND_CINE;
-        try {
-            //1º) 
-            motorSql.connect();
-
-            sql += cine + "'";
-            if (bean != null) {
-                if (bean.getId_genero() != 0) {
-                    sql += "id_genero='" + bean.getId_genero() + "'";
-                }
-
-                if (bean.getId_publico() != 0) {
-                    sql += "id_publico='" + bean.getId_publico() + "'";
-                }
-
-            }
-
-            System.out.println(sql);
-            ResultSet rs = motorSql.
-                    executeQuery(sql);
-
-            while (rs.next()) {
-                Pelicula pelicula = new Pelicula();
-
-                pelicula.setId(rs.getInt(1));
-                pelicula.setTitulo(rs.getString(2));
-                pelicula.setPrecio(rs.getDouble(3));
-                pelicula.setDuracion(rs.getInt(4));
-                pelicula.setTrailer(rs.getString(5));
-                pelicula.setSinopsis(rs.getString(6));
-                pelicula.setnVotos(rs.getInt(7));
-                pelicula.setsPuntuacion(rs.getInt(8));
-                pelicula.setFechaEstreno(rs.getString(9));
-                pelicula.setUrl(rs.getString(10));
-                pelicula.setId_genero(rs.getInt(11));
-
-                peliculas.add(pelicula);
-
-            }
-
-        } catch (SQLException ex) {
-            Logger.getLogger(PeliculaDAO.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            motorSql.disconnect();
-        }
-        return peliculas;
-
-    }
-    
 }

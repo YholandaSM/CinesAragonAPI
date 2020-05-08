@@ -10,6 +10,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import model.Pelicula;
 import model.Usuario;
 
 /**
@@ -27,14 +28,23 @@ public class UserWs {
     }
 
     @POST
+    @Produces("application/json")
+    @Path("/historico")
+    public String getJson(Usuario user) {
+        UsuarioDAO usuarioDao = new UsuarioDAO();
+        ArrayList<Pelicula> lstPeliculas = usuarioDao.findPeliculasByUser(user);
+        return Pelicula.toArrayJSon(lstPeliculas);
+    }
+
+    @POST
     @Path("/login")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces("application/json")
     public String login(Usuario user) {
 
         UsuarioDAO usuarioDao = new UsuarioDAO();
-    //  user.setEmail("diego@gmail.com");
-      //user.setPassword("1234");
+        //  user.setEmail("diego@gmail.com");
+        //user.setPassword("1234");
         // ArrayList<Usuario> usuarios   = usuarioDao.findAll(user); 
         ArrayList<Usuario> usuarios = usuarioDao.findAll(user);
         return Usuario.toArrayJSon(usuarios);

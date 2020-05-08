@@ -36,6 +36,16 @@ public class MoviesResource {
         ArrayList<Pelicula> lstPeliculas = peliculaDao.findAll(null);
         return Pelicula.toArrayJSon(lstPeliculas);
     }
+    
+     
+    @GET()
+     @Path("/topten")
+    @Produces("application/json")
+    public String getTopTen() {
+        PeliculaDAO peliculaDao = new PeliculaDAO();
+        ArrayList<Pelicula> lstPeliculas = peliculaDao.findTopTen();
+        return Pelicula.toArrayJSon(lstPeliculas);
+    }
 
     /**
      * PUT method for updating or creating an instance of MoviesResource

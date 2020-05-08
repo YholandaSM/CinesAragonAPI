@@ -115,7 +115,7 @@ public class UsuarioDAO
      * @param bean
      * @return 
      */
-    public ArrayList<Pelicula> findPeliculasByCine(Usuario bean) {
+    public ArrayList<Pelicula> findPeliculasByUser(Usuario bean) {
        ArrayList<Pelicula> peliculas = new ArrayList<>();
         String sql = "";
         try {

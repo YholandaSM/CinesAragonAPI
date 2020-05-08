@@ -4,28 +4,29 @@ import interfaces.IDAO;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import model.Genero;
+import model.Publico;
 import utils.ConnectionFactory;
 import utils.MotorSQL;
+ 
 
 /**
  *
  * @author Hp
  */
-public class GeneroDAO implements IDAO<Genero, Integer> {
-
-    private final String SQL_FINDALL
-            = "SELECT * FROM `genero` WHERE 1=1 ";
+public class PublicoDAO implements IDAO<Publico, Integer>{
+    
+     private final String SQL_FINDALL
+            = "SELECT * FROM `publico` WHERE 1=1 ";
 
     private MotorSQL motorSql;
 
-    public GeneroDAO() {
+    public PublicoDAO() {
 
         motorSql = ConnectionFactory.selectDb();
     }
 
     @Override
-    public int add(Genero bean) {
+    public int add(Publico bean) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -35,19 +36,19 @@ public class GeneroDAO implements IDAO<Genero, Integer> {
     }
 
     @Override
-    public ArrayList<Genero> findAll(Genero bean) {
-        ArrayList<Genero> listGenero = new ArrayList<>();
+    public ArrayList<Publico> findAll(Publico bean) {
+       ArrayList<Publico> listPublico = new ArrayList<>();
         String sql = SQL_FINDALL;
 
         try {
             //1º) 
             motorSql.connect();
             if (bean != null) {
-                if (bean.getIdGenero() != 0) {
-                    sql += "AND ID_GENERO='" + bean.getIdGenero() + "'";
+                if (bean.getIdPublico() != 0) {
+                    sql += "AND ID_PUBLICO='" + bean.getIdPublico() + "'";
                 }
-                if (bean.getGenero() != null) {
-                    sql += "AND GENERO='" + bean.getGenero() + "'";
+                if (bean.getNombre() != null) {
+                    sql += "AND GENERO='" + bean.getNombre() + "'";
                 }
 
             }
@@ -57,12 +58,12 @@ public class GeneroDAO implements IDAO<Genero, Integer> {
                     executeQuery(sql);
 
             while (rs.next()) {
-                Genero genero = new Genero();
+                Publico publico = new Publico();
 
-                genero.setIdGenero(rs.getInt(1));
-                genero.setGenero(rs.getString(2));
+                publico.setIdPublico(rs.getInt(1));
+                publico.setNombre(rs.getString(2));
 
-                listGenero.add(genero);
+                listPublico.add(publico);
 
             }
         } catch (SQLException e) {
@@ -70,15 +71,13 @@ public class GeneroDAO implements IDAO<Genero, Integer> {
         } finally {
             motorSql.disconnect();
         }
-        return listGenero;
+        return listPublico;
     }
 
     @Override
-    public int update(Genero bean) {
+    public int update(Publico bean) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-}
 
- 
     
- 
+}

@@ -9,8 +9,7 @@ import interfaces.IDAO;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import model.Cine;
-import model.Pelicula;
+import model.Genero;
 import utils.ConnectionFactory;
 import utils.MotorSQL;
 
@@ -18,20 +17,20 @@ import utils.MotorSQL;
  *
  * @author Hp
  */
-public class CineDAO implements IDAO<Cine, Integer> {
+public class GeneroDAO implements IDAO<Genero, Integer> {
 
     private final String SQL_FINDALL
-            = "SELECT * FROM `cine` WHERE 1=1 ";
+            = "SELECT * FROM `genero` WHERE 1=1 ";
 
     private MotorSQL motorSql;
 
-    public CineDAO() {
+    public GeneroDAO() {
 
         motorSql = ConnectionFactory.selectDb();
     }
 
     @Override
-    public int add(Cine bean) {
+    public int add(Genero bean) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -41,36 +40,20 @@ public class CineDAO implements IDAO<Cine, Integer> {
     }
 
     @Override
-    public int update(Cine bean) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public ArrayList<Cine> findAll(Cine bean) {
-        ArrayList<Cine> cines = new ArrayList<>();
+    public ArrayList<Genero> findAll(Genero bean) {
+        ArrayList<Genero> listGenero = new ArrayList<>();
         String sql = SQL_FINDALL;
 
         try {
             //1º) 
             motorSql.connect();
             if (bean != null) {
-                if (bean.getId() != 0) {
-                    sql += "AND ID_CINE='" + bean.getId() + "'";
+                if (bean.getIdGenero() != 0) {
+                    sql += "AND ID_GENERO='" + bean.getIdGenero() + "'";
                 }
-                if (bean.getNombre()!= null) {
-                    sql += "AND NOMBRE='" + bean.getNombre() + "'";
+                if (bean.getGenero() != null) {
+                    sql += "AND GENERO='" + bean.getGenero() + "'";
                 }
-
-                if (bean.getLoc() != null) {
-                    sql += "AND LOCALIDAD='" + bean.getLoc() + "'";
-                }
-                
-                
-              
- 
-                //PUNTO 1 DEL REQUERIMIENTO
-                //si parametro 10 peliculas más votadas
-                //sql += "AND FOUND_ROWS()<11 ORDER BY PUNTUACION DESC" + "'";
 
             }
 
@@ -79,14 +62,12 @@ public class CineDAO implements IDAO<Cine, Integer> {
                     executeQuery(sql);
 
             while (rs.next()) {
-                Cine cine = new Cine();
+                Genero genero = new Genero();
 
-                cine.setId(rs.getInt(1));
-                cine.setNombre(rs.getString(2));
-                cine.setLoc(rs.getString(3));
-             
+                genero.setIdGenero(rs.getInt(1));
+                genero.setGenero(rs.getString(2));
 
-                cines.add(cine);
+                listGenero.add(genero);
 
             }
         } catch (SQLException e) {
@@ -94,7 +75,15 @@ public class CineDAO implements IDAO<Cine, Integer> {
         } finally {
             motorSql.disconnect();
         }
-        return cines;
+        return listGenero;
     }
 
+    @Override
+    public int update(Genero bean) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
+
+ 
+    
+ 

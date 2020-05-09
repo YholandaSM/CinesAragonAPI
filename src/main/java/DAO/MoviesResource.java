@@ -6,10 +6,12 @@ import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.Produces;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PUT;
 import javax.ws.rs.core.MediaType;
 import model.Pelicula;
+import model.Usuario;
 
 /**
  * REST Web Service
@@ -38,7 +40,7 @@ public class MoviesResource {
     }
     
      
-    @GET()
+    @GET
      @Path("/topten")
     @Produces("application/json")
     public String getTopTen() {
@@ -60,6 +62,21 @@ public class MoviesResource {
         PeliculaDAO peliculaDao = new PeliculaDAO();
         int resp = peliculaDao.add(pelicula);
         return Pelicula.toObjectJson(pelicula);
+    }
+    
+    @POST
+    @Path("/historico")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces("application/json")
+    public String getHistorico(Usuario user) {
+
+         PeliculaDAO peliculaDao = new PeliculaDAO();
+        //  user.setEmail("diego@gmail.com");
+        //user.setPassword("1234");
+        // ArrayList<Usuario> usuarios   = usuarioDao.findAll(user); 
+        ArrayList<Pelicula> lstPeliculas = peliculaDao.findPeliculasByUser(user);
+        return Pelicula.toArrayJSon(lstPeliculas);
+
     }
 
 }

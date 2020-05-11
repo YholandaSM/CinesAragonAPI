@@ -84,12 +84,13 @@ public class MoviesResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces("application/json")
-    @Path("/peliculasfiltradas")
+   // @Path("/peliculasfiltradas/{idGenero}/{idPublic}")
+     @Path("/peliculasfiltradas")
     public String getPeliculas(Cine cine,
-            //  @QueryParam("idGenero")int idGenero, 
-            // @QueryParam("idPublic") int idPublic) {
-            @PathParam("idGenero") int idGenero,
-            @PathParam("idPublic") int idPublic) {
+            @QueryParam("idGenero")int idGenero, 
+            @QueryParam("idPublic") int idPublic) {
+          //  @PathParam("idGenero") int idGenero,
+           // @PathParam("idPublic") int idPublic) {
         PeliculaDAO peliculaDao = new PeliculaDAO();
         ArrayList<Pelicula> peliculas = peliculaDao.findPeliculasByParametros(cine, idGenero, idPublic);
         return Pelicula.toArrayJSon(peliculas);

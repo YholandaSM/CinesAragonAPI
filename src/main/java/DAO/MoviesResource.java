@@ -6,10 +6,14 @@ import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.Produces;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PUT;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+import model.Cine;
 import model.Pelicula;
 import model.Usuario;
 
@@ -30,7 +34,6 @@ public class MoviesResource {
     public MoviesResource() {
     }
 
-   
     @GET
     @Produces("application/json")
     public String getJson() {
@@ -38,10 +41,9 @@ public class MoviesResource {
         ArrayList<Pelicula> lstPeliculas = peliculaDao.findAll(null);
         return Pelicula.toArrayJSon(lstPeliculas);
     }
-    
-     
+
     @GET
-     @Path("/topten")
+    @Path("/topten")
     @Produces("application/json")
     public String getTopTen() {
         PeliculaDAO peliculaDao = new PeliculaDAO();
@@ -58,19 +60,19 @@ public class MoviesResource {
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public String add(Pelicula pelicula){
+    public String add(Pelicula pelicula) {
         PeliculaDAO peliculaDao = new PeliculaDAO();
         int resp = peliculaDao.add(pelicula);
         return Pelicula.toObjectJson(pelicula);
     }
-    
+
     @POST
     @Path("/historico")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces("application/json")
     public String getHistorico(Usuario user) {
 
-         PeliculaDAO peliculaDao = new PeliculaDAO();
+        PeliculaDAO peliculaDao = new PeliculaDAO();
         //  user.setEmail("diego@gmail.com");
         //user.setPassword("1234");
         // ArrayList<Usuario> usuarios   = usuarioDao.findAll(user); 
@@ -79,4 +81,18 @@ public class MoviesResource {
 
     }
 
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces("application/json")
+    @Path("/peliculasfiltradas")
+    public String getPeliculas(Cine cine,
+            //  @QueryParam("idGenero")int idGenero, 
+            // @QueryParam("idPublic") int idPublic) {
+            @PathParam("idGenero") int idGenero,
+            @PathParam("idPublic") int idPublic) {
+        PeliculaDAO peliculaDao = new PeliculaDAO();
+        ArrayList<Pelicula> peliculas = peliculaDao.findPeliculasByParametros(cine, idGenero, idPublic);
+        return Pelicula.toArrayJSon(peliculas);
+
+    }
 }

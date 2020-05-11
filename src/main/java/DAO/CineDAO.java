@@ -9,8 +9,11 @@ import interfaces.IDAO;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.Cine;
 import model.Pelicula;
+import model.Sesion;
 import utils.ConnectionFactory;
 import utils.MotorSQL;
 
@@ -96,5 +99,6 @@ public class CineDAO implements IDAO<Cine, Integer> {
         }
         return cines;
     }
-
+    
+   
 }

@@ -6,7 +6,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.Cine;
 import model.Pelicula;
+import model.Sesion;
 import model.Usuario;
 import utils.ConnectionFactory;
 import utils.MotorSQL;
@@ -22,6 +24,12 @@ public class PeliculaDAO
     private final String SQL_UPDATE = "UPDATE `pelicula` SET ";
     private final String SQL_TOPTEN = "SELECT * FROM `pelicula` WHERE FOUND_ROWS()<11 "
             + " ORDER BY PUNTUACION DESC";
+    private final String SQL_FIND_FILTROS
+            = "SELECT p.*"
+            + " FROM pelicula  p,sesion s,sala sa,cine c"
+            + " WHERE p.id_pelicula=s.id_pelicula"
+            + " AND   s.id_sala=sa.num_sala"
+            + " AND   c.id_cine=sa.id_cine";
     
        private final String SQL_HISTORICO=
             " select p.* " +
@@ -327,6 +335,56 @@ public class PeliculaDAO
 
     }
 
+    public ArrayList<Pelicula> findPeliculasByParametros(Cine bean,int idGenero, int idPublico) {
+        ArrayList<Pelicula> peliculas = new ArrayList<>();
+        String sql = SQL_FIND_FILTROS;
+        try {
+            //1º) 
+            motorSql.connect();
+            
+            if (bean != null) {
+                    sql += " and  c.id_cine='" +bean.getId()+ "'";
+                }
+            
+            if(idGenero!=0){
+                 sql += " and p.id_genero='" + idGenero + "'";
+            }
+
+            if(idPublico!=0){
+                 sql += " and p.id_publico='" + idGenero + "'";
+            }
+
+            System.out.println(sql);
+            ResultSet rs = motorSql.
+                    executeQuery(sql);
+
+            while (rs.next()) {
+                Pelicula pelicula = new Pelicula();
+
+                pelicula.setId(rs.getInt(1));
+                pelicula.setTitulo(rs.getString(2));
+                pelicula.setPrecio(rs.getDouble(3));
+                pelicula.setDuracion(rs.getInt(4));
+                pelicula.setTrailer(rs.getString(5));
+                pelicula.setSinopsis(rs.getString(6));
+                pelicula.setnVotos(rs.getInt(7));
+                pelicula.setsPuntuacion(rs.getInt(8));
+                pelicula.setFechaEstreno(rs.getString(9));
+                pelicula.setUrl(rs.getString(10));
+                pelicula.setId_genero(rs.getInt(11));
+
+                peliculas.add(pelicula);
+
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(PeliculaDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            motorSql.disconnect();
+        }
+        return peliculas;
+
+    }
 
     public static void main(String[] args) {
         /*PRUEBAS UNITARIAS - TEST*/

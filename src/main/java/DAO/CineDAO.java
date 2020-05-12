@@ -120,14 +120,7 @@ public class CineDAO implements IDAO<Cine, Integer> {
                     sql += bean. getId() ;
               
                 }
-                
-                
-              
- 
-                //PUNTO 1 DEL REQUERIMIENTO
-                //si parametro 10 peliculas más votadas
-                //sql += "AND FOUND_ROWS()<11 ORDER BY PUNTUACION DESC" + "'";
-
+   
             }
 
             System.out.println(sql);

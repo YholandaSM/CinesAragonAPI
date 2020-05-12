@@ -1,5 +1,9 @@
 package model;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import java.util.ArrayList;
+
 /**
  *
  * @author Hp
@@ -53,6 +57,25 @@ public class Sesion {
 
     public void setFecha(String fecha) {
         this.fecha = fecha;
+    }
+    
+      public static String toObjectJson(Sesion sesion) {
+        GsonBuilder builder = new GsonBuilder();
+        builder.setPrettyPrinting();
+        Gson gson = builder.create();
+        String resp = gson.toJson(sesion);
+        return resp;
+    }
+      
+      public static String
+            toArrayJSon(ArrayList<Sesion> sesiones) {
+        GsonBuilder builder = new GsonBuilder();
+        builder.setPrettyPrinting();
+
+        Gson gson = builder.create();
+        String resp = gson.toJson(sesiones);
+
+        return resp;
     }
     
     

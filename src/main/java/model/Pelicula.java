@@ -9,8 +9,22 @@ public class Pelicula {
     private String titulo, trailer, sinopsis, fechaEstreno, url;
     private int duracion, nVotos, sPuntuacion, id, id_genero, id_publico;
     private Double precio;
-  //  private Genero genero;
+    private Genero genero;
     //private Publico publico
+
+    public Pelicula(int id) {
+        this.id = id;
+    }
+    
+    
+    
+    public Genero getGenero() {
+        return genero;
+    }
+
+    public void setGenero(Genero genero) {
+        this.genero = genero;
+    }
 
     public String getUrl() {
         return url;

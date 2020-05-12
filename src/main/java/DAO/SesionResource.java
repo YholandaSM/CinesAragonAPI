@@ -16,6 +16,7 @@ import javax.ws.rs.PUT;
 import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.POST;
 import javax.ws.rs.core.MediaType;
+import model.Cine;
 import model.Pelicula;
 import model.Sesion;
 
@@ -56,5 +57,18 @@ public class SesionResource {
     @PUT
     @Consumes(MediaType.APPLICATION_XML)
     public void putXml(String content) {
+    }
+    
+    
+    @POST
+    @Path("/sesionfiltros")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces("application/json")
+    public String getSesionByPeliculaCine(Pelicula pelicula, Cine cine) {
+
+        SesionDAO sesionDao = new SesionDAO();
+        ArrayList<Sesion> lstSesiones = sesionDao.findSesionByPeliculaCine(pelicula, cine);
+        return Sesion.toArrayJSon(lstSesiones);
+
     }
 }

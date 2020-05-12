@@ -12,6 +12,10 @@ public class Sala {
     public Sala() {
     }
 
+    public Sala(int idSala) {
+        this.idSala = idSala;
+    }
+    
     public int getIdSala() {
         return idSala;
     }

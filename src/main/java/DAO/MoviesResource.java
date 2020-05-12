@@ -6,14 +6,10 @@ import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.Produces;
 import javax.ws.rs.GET;
-import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PUT;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
-import model.Cine;
 import model.Pelicula;
 import model.Usuario;
 
@@ -81,19 +77,19 @@ public class MoviesResource {
 
     }
 
-    @POST
+ /*   @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces("application/json")
    // @Path("/peliculasfiltradas/{idGenero}/{idPublic}")
      @Path("/peliculasfiltradas")
-    public String getPeliculas(Cine cine,
-            @QueryParam("idGenero")int idGenero, 
-            @QueryParam("idPublic") int idPublic) {
-          //  @PathParam("idGenero") int idGenero,
-           // @PathParam("idPublic") int idPublic) {
+     
+    public String getPeliculas(@QueryParam("cine") Cine cine,@QueryParam("genero") Genero genero,
+            @QueryParam("publico") Publico publico){
+            //@QueryParam("genero")Genero genero, 
+            //@QueryParam("publico") Publico publico) {           
         PeliculaDAO peliculaDao = new PeliculaDAO();
-        ArrayList<Pelicula> peliculas = peliculaDao.findPeliculasByParametros(cine, idGenero, idPublic);
+        ArrayList<Pelicula> peliculas = peliculaDao.findPeliculasByParametros(cine, genero, publico);
         return Pelicula.toArrayJSon(peliculas);
 
-    }
+    }*/
 }

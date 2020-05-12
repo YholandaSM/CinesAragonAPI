@@ -7,13 +7,14 @@ package model;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  *
  * @author Hp
  */
-public class Genero {
+public class Genero implements Serializable{
 
     
     private int idGenero;

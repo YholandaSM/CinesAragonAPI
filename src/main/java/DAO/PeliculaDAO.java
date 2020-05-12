@@ -7,8 +7,9 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Cine;
+import model.Genero;
 import model.Pelicula;
-import model.Sesion;
+import model.Publico;
 import model.Usuario;
 import utils.ConnectionFactory;
 import utils.MotorSQL;
@@ -335,7 +336,7 @@ public class PeliculaDAO
 
     }
 
-    public ArrayList<Pelicula> findPeliculasByParametros(Cine bean,int idGenero, int idPublico) {
+    public ArrayList<Pelicula> findPeliculasByParametros(Cine bean,Genero genero, Publico publico) {
         ArrayList<Pelicula> peliculas = new ArrayList<>();
         String sql = SQL_FIND_FILTROS;
         try {
@@ -346,12 +347,12 @@ public class PeliculaDAO
                     sql += " and  c.id_cine='" +bean.getId()+ "'";
                 }
             
-            if(idGenero!=0){
-                 sql += " and p.id_genero='" + idGenero + "'";
+            if(genero!=null){
+                 sql += " and p.id_genero='" + genero.getIdGenero() + "'";
             }
 
-            if(idPublico!=0){
-                 sql += " and p.id_publico='" + idGenero + "'";
+            if(publico!=null){
+                 sql += " and p.id_publico='" + publico.getIdPublico() + "'";
             }
 
             System.out.println(sql);

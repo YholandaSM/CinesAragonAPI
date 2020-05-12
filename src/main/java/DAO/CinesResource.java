@@ -14,6 +14,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PUT;
 import javax.enterprise.context.RequestScoped;
+import javax.ws.rs.POST;
 import javax.ws.rs.core.MediaType;
 import model.Cine;
 import model.Pelicula;
@@ -57,5 +58,17 @@ public class CinesResource {
     @PUT
     @Consumes(MediaType.APPLICATION_XML)
     public void putXml(String content) {
+    }
+    
+     @POST
+    @Path("/cinesporpelicula")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces("application/json")
+    public String getCinesByPelicula(Pelicula pelicula) {
+
+        CineDAO cineDao = new CineDAO();
+        ArrayList<Cine> lstCines = cineDao.findCinesByPelicula(pelicula);
+        return Cine.toArrayJSon(lstCines);
+
     }
 }

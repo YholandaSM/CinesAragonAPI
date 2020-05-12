@@ -336,7 +336,7 @@ public class PeliculaDAO
 
     }
 
-    public ArrayList<Pelicula> findPeliculasByParametros(Cine bean,Genero genero, Publico publico) {
+  /*  public ArrayList<Pelicula> findPeliculasByParametros(Cine bean,Genero genero, Publico publico) {
         ArrayList<Pelicula> peliculas = new ArrayList<>();
         String sql = SQL_FIND_FILTROS;
         try {
@@ -386,6 +386,52 @@ public class PeliculaDAO
         return peliculas;
 
     }
+    */
+     public ArrayList<Pelicula> findPeliculasByParametros(Cine bean ) {
+        ArrayList<Pelicula> peliculas = new ArrayList<>();
+        String sql = SQL_FIND_FILTROS;
+        try {
+            //1º) 
+            motorSql.connect();
+            
+            if (bean != null) {
+                    sql += " and  c.id_cine='" +bean.getId()+ "'";
+                }
+            
+           
+
+            System.out.println(sql);
+            ResultSet rs = motorSql.
+                    executeQuery(sql);
+
+            while (rs.next()) {
+                Pelicula pelicula = new Pelicula();
+
+                pelicula.setId(rs.getInt(1));
+                pelicula.setTitulo(rs.getString(2));
+                pelicula.setPrecio(rs.getDouble(3));
+                pelicula.setDuracion(rs.getInt(4));
+                pelicula.setTrailer(rs.getString(5));
+                pelicula.setSinopsis(rs.getString(6));
+                pelicula.setnVotos(rs.getInt(7));
+                pelicula.setsPuntuacion(rs.getInt(8));
+                pelicula.setFechaEstreno(rs.getString(9));
+                pelicula.setUrl(rs.getString(10));
+                pelicula.setId_genero(rs.getInt(11));
+
+                peliculas.add(pelicula);
+
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(PeliculaDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            motorSql.disconnect();
+        }
+        return peliculas;
+
+    }
+
 
     public static void main(String[] args) {
         /*PRUEBAS UNITARIAS - TEST*/

@@ -9,11 +9,8 @@ import interfaces.IDAO;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import model.Cine;
 import model.Pelicula;
-import model.Sesion;
 import utils.ConnectionFactory;
 import utils.MotorSQL;
 
@@ -25,6 +22,13 @@ public class CineDAO implements IDAO<Cine, Integer> {
 
     private final String SQL_FINDALL
             = "SELECT * FROM `cine` WHERE 1=1 ";
+    
+    private final String SQL_FINDBYPELICULA
+            = "SELECT C.* " +
+            "from cine c, sala s,sesion se " +
+            "where c.id_cine=s.num_sala " +
+            "and s.num_sala=se.id_sala " +
+            "and  se.id_pelicula=";
 
     private MotorSQL motorSql;
 
@@ -99,6 +103,56 @@ public class CineDAO implements IDAO<Cine, Integer> {
         }
         return cines;
     }
+       /**
+        * Método que lista todos los cines en los que se proyecta en una película
+        * @param bean
+        * @return 
+        */
+       public ArrayList<Cine> findCinesByPelicula(Pelicula bean) {
+        ArrayList<Cine> cines = new ArrayList<>();
+        String sql = SQL_FINDBYPELICULA;
+
+        try {
+            //1º) 
+            motorSql.connect();
+            if (bean != null) {
+                if (bean.getId() != 0) {
+                    sql += bean. getId() ;
+              
+                }
+                
+                
+              
+ 
+                //PUNTO 1 DEL REQUERIMIENTO
+                //si parametro 10 peliculas más votadas
+                //sql += "AND FOUND_ROWS()<11 ORDER BY PUNTUACION DESC" + "'";
+
+            }
+
+            System.out.println(sql);
+            ResultSet rs = motorSql.
+                    executeQuery(sql);
+
+            while (rs.next()) {
+                Cine cine = new Cine();
+
+                cine.setId(rs.getInt(1));
+                cine.setNombre(rs.getString(2));
+                cine.setLoc(rs.getString(3));
+             
+
+                cines.add(cine);
+
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        } finally {
+            motorSql.disconnect();
+        }
+        return cines;
+    }
+    
     
    
 }

@@ -9,8 +9,12 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PUT;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+import model.Cine;
+import model.Genero;
 import model.Pelicula;
+import model.Publico;
 import model.Usuario;
 
 /**
@@ -77,7 +81,7 @@ public class MoviesResource {
 
     }
 
- /*   @POST
+  /* @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces("application/json")
    // @Path("/peliculasfiltradas/{idGenero}/{idPublic}")
@@ -92,4 +96,18 @@ public class MoviesResource {
         return Pelicula.toArrayJSon(peliculas);
 
     }*/
+    
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces("application/json")
+   // @Path("/peliculasfiltradas/{idGenero}/{idPublic}")
+     @Path("/peliculasfiltradas")
+    public String getPeliculas(Cine cine) {
+            //@QueryParam("genero")Genero genero, 
+            //@QueryParam("publico") Publico publico) {           
+        PeliculaDAO peliculaDao = new PeliculaDAO();
+        ArrayList<Pelicula> peliculas = peliculaDao.findPeliculasByParametros(cine);
+        return Pelicula.toArrayJSon(peliculas);
+
+    }
 }

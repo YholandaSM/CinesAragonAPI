@@ -84,13 +84,13 @@ public class SesionDAO implements IDAO<Sesion, Integer> {
             motorSql.connect();
             if (pelicula != null) {
                 if (pelicula.getId() != 0) {
-                    sql += "AND ID_PELICULA='" + pelicula.getId() + "'";
+                    sql += "AND p.ID_PELICULA='" + pelicula.getId() + "'";
                 }
 
             }
             if (cine != null) {
                 if (cine.getId() != 0) {
-                    sql += "AND ID_CINE='" + cine.getId() + "'";
+                    sql += "AND c.ID_CINE='" + cine.getId() + "'";
                 }
 
             }

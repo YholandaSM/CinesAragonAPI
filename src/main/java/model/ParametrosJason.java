@@ -13,8 +13,10 @@ import java.io.Serializable;
  */
 public class ParametrosJason implements Serializable{
     
-    Pelicula pelicula;
-    Cine cine;
+    private Pelicula pelicula;
+    private Cine cine;
+    private Genero genero;
+    private Publico publico;
 
     public ParametrosJason() {
     }
@@ -24,6 +26,12 @@ public class ParametrosJason implements Serializable{
         this.cine = cine;
     }
 
+    public ParametrosJason(Cine cine, Genero genero, Publico publico) {
+        this.cine = cine;
+        this.genero = genero;
+        this.publico = publico;
+    }
+  
     public Pelicula getPelicula() {
         return pelicula;
     }
@@ -38,6 +46,22 @@ public class ParametrosJason implements Serializable{
 
     public void setCine(Cine cine) {
         this.cine = cine;
+    }
+
+    public Genero getGenero() {
+        return genero;
+    }
+
+    public void setGenero(Genero genero) {
+        this.genero = genero;
+    }
+
+    public Publico getPublico() {
+        return publico;
+    }
+
+    public void setPublico(Publico publico) {
+        this.publico = publico;
     }
     
     

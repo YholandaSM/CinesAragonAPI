@@ -336,7 +336,7 @@ public class PeliculaDAO
 
     }
 
-  /*  public ArrayList<Pelicula> findPeliculasByParametros(Cine bean,Genero genero, Publico publico) {
+  public ArrayList<Pelicula> findPeliculasByParametros(Cine bean,Genero genero, Publico publico) {
         ArrayList<Pelicula> peliculas = new ArrayList<>();
         String sql = SQL_FIND_FILTROS;
         try {
@@ -386,8 +386,8 @@ public class PeliculaDAO
         return peliculas;
 
     }
-    */
-     public ArrayList<Pelicula> findPeliculasByParametros(Cine bean ) {
+    
+  /*   public ArrayList<Pelicula> findPeliculasByParametros(Cine bean ) {
         ArrayList<Pelicula> peliculas = new ArrayList<>();
         String sql = SQL_FIND_FILTROS;
         try {
@@ -432,7 +432,7 @@ public class PeliculaDAO
 
     }
 
-
+*/
     public static void main(String[] args) {
         /*PRUEBAS UNITARIAS - TEST*/
         PeliculaDAO peliculaDAO = new PeliculaDAO();

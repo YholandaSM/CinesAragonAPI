@@ -197,35 +197,35 @@ public class PeliculaDAO
 
                 sql = SQL_UPDATE;
                 if (bean.getTitulo() != null) {
-                    sql += "TITULO='" + bean.getTitulo() + "'";
+                    sql += " TITULO='" + bean.getTitulo() + "',";
                 }
 
                 if (bean.getPrecio() != null) {
-                    sql += "PRECIO='" + bean.getPrecio() + "'";
+                    sql += " PRECIO='" + bean.getPrecio() + "',";
                 }
 
                 if (bean.getDuracion() > 0) {
-                    sql += "DURACION='" + bean.getDuracion() + "'";
+                    sql += " DURACION='" + bean.getDuracion() + "',";
                 }
 
                 if (bean.getTrailer() != null) {
-                    sql += "TRAILER='" + bean.getTrailer() + "', ";
+                    sql += " TRAILER='" + bean.getTrailer() + "', ";
                 }
 
                 if (bean.getSinopsis() != null) {
-                    sql += "SIPNOSIS='" + bean.getSinopsis() + "'";
+                    sql += " SIPNOSIS='" + bean.getSinopsis() + "',";
                 }
 
                 if (bean.getnVotos() > 0) {
-                    sql += "N_Votos='" + bean.getnVotos() + "'";
+                    sql += " votos='" + bean.getnVotos() + "',";
                 }
 
                 if (bean.getsPuntuacion() > 0) {
-                    sql += "S_Puntuacion='" + bean.getsPuntuacion() + "'";
+                    sql += " puntuacion='" + bean.getsPuntuacion() + "'";
                 }
 
                 if (bean.getFechaEstreno() != null) {
-                    sql += "Fecha_Estreno='" + bean.getFechaEstreno() + "'";
+                    sql += "fecha_estreno='" + bean.getFechaEstreno() + "',";
                 }
 
                 sql += " WHERE `ID_Pelicula`=" + bean.getId() + ";";

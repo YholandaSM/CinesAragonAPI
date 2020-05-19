@@ -13,6 +13,7 @@ public class Compra implements Serializable{
     private int idCompra;
     private Usuario usuario;
     private String fechaCompra;
+   
 
     public Compra() {
     }
@@ -22,6 +23,16 @@ public class Compra implements Serializable{
         this.usuario = usuario;
         this.fechaCompra = fechaCompra;
     }
+
+    
+    
+    public Compra( Usuario usuario, String fechaCompra ) {  
+        this.usuario = usuario;
+        this.fechaCompra = fechaCompra;
+      
+    }
+    
+    
 
     public int getIdCompra() {
         return idCompra;
@@ -48,6 +59,10 @@ public class Compra implements Serializable{
     public void setFechaCompra(String fechaCompra) {
         this.fechaCompra = fechaCompra;
     }
+
+     
+    
+    
     
       public static String toObjectJson(Compra compra) {
         GsonBuilder builder = new GsonBuilder();

@@ -15,6 +15,7 @@ import javax.ws.rs.PUT;
 import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.core.MediaType;
 import model.Compra;
+import model.CompraEntrada;
 
 /**
  * REST Web Service
@@ -55,9 +56,9 @@ public class CompraResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/insertar")
-    public String add(Compra compra) {
+    public String add(CompraEntrada compra) {
         CompraDao compraDao = new CompraDao();
-        int resp = compraDao.add(compra);
-        return Compra.toObjectJson(compra);
+        int resp = compraDao.add(compra.getCompra());
+        return Compra.toObjectJson(compra.getCompra());
     }
 }

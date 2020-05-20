@@ -14,6 +14,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PUT;
 import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.core.MediaType;
+import model.CompraEntrada;
 import model.Entrada;
 
 /**
@@ -55,9 +56,9 @@ public class EntradaResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/insertar")
-    public String add(Entrada entrada) {
+    public String add(CompraEntrada entrada) {
         EntradaDao entradaDao = new EntradaDao();
-        int resp = entradaDao.add(entrada);
-        return Entrada.toObjectJson(entrada);
+        int resp = entradaDao.add(entrada.getEntrada());
+        return Entrada.toObjectJson(entrada.getEntrada());
     }
 }

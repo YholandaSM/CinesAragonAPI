@@ -26,7 +26,7 @@ public class PeliculaDAO
     private final String SQL_TOPTEN = "SELECT * FROM `pelicula` WHERE FOUND_ROWS()<11 "
             + " ORDER BY PUNTUACION DESC";
     private final String SQL_FIND_FILTROS
-            = "SELECT p.*"
+            = "SELECT distinct p.*"
             + " FROM pelicula  p,sesion s,sala sa,cine c"
             + " WHERE p.id_pelicula=s.id_pelicula"
             + " AND   s.id_sala=sa.num_sala"

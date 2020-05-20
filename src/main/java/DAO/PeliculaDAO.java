@@ -33,7 +33,7 @@ public class PeliculaDAO
             + " AND   c.id_cine=sa.id_cine";
     
        private final String SQL_HISTORICO=
-            " select p.* " +
+            " select distinct p.* " +
             "from pelicula p, sesion s,entrada e,compra c, usuario u " +
             "where p.id_pelicula=s.id_pelicula " +
             "and s.id_sesion=e.id_sesion " +
